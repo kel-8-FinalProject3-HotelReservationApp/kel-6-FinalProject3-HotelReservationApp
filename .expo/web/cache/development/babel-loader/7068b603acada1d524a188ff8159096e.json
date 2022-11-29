@@ -1,0 +1,1 @@
+{"ast":null,"code":"import Input from \"./Input\";\nexport { Input };","map":{"version":3,"names":["Input"],"sources":["D:/dokumen/semester 7/hactive8/Final-Project/Final_Project_3/Hotel-6/src/component/Atoms/index.jsx"],"sourcesContent":["import Input from \"./Input\";\r\n\r\nexport {Input}"],"mappings":"AAAA,OAAOA,KAAK;AAEZ,SAAQA,KAAK"},"metadata":{},"sourceType":"module"}

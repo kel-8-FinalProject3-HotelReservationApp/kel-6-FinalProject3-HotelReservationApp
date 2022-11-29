@@ -1,0 +1,1 @@
+{"ast":null,"code":"import Home from \"./Home\";\nexport { Home };","map":{"version":3,"names":["Home"],"sources":["D:/dokumen/semester 7/hactive8/Final-Project/Final_Project_3/Hotel-6/src/pages/index.jsx"],"sourcesContent":["import Home from \"./Home\";\r\n\r\nexport {Home}"],"mappings":"AAAA,OAAOA,IAAI;AAEX,SAAQA,IAAI"},"metadata":{},"sourceType":"module"}
