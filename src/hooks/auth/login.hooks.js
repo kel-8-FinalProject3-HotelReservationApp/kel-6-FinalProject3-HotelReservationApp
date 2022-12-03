@@ -13,10 +13,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import useBookingHistory from "../../hooks/booking/history.hooks";
+import { logout } from "../../config/Login/usersSlice";
 
 
 const useLogin = ({navigation}) => {
     const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
+    const dispatch = useDispatch()
     const handleLogin = () => {
         navigation.navigate("login")
     }
