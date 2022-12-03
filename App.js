@@ -1,35 +1,101 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { BookingPage, BookingHistoryPage, SearchResultPage } from './src/pages';
+import {  StyleSheet, Text, View } from 'react-native';
+import { ScrollView } from "react-native-web";
+import { BookingPage, BookingHistoryPage, SearchResultPage, DetailPage, HomePage, LoginPage, FavouritePage, SettingsPage } from './src/pages';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { store } from './src/config/store'
 import { Provider } from 'react-redux'
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/es/integration/react";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 
 let persistor = persistStore(store);
-const Stack = createStackNavigator();
-
+const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ cardStyle: {backgroundColor: 'transparent'}}}>
-            <Stack.Screen
+          <Tab.Navigator 
+          initialRouteName="searchResult"
+          screenOptions={({route}) => ({
+            tabBarIcon: ({focused, color, size}) => {
+              let iconName;
+              let rn = route.name;
+
+              if (rn === 'searchResult') {
+                iconName = focused ? 'home' : 'home-outline';
+              } else if (rn === 'bookingHistory') {
+                iconName = focused ? 'person' : 'person-outline';
+              } else if (rn === 'fav') {
+                iconName = focused ? 'heart-sharp' : 'heart-outline';
+              } else if (rn === 'settings') {
+                iconName = focused ? 'settings' : 'settings-outline';
+              }
+              return <IonIcon name={iconName} size={size} color={color}></IonIcon>
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: "#22A39F"
+          }}
+          
+          >
+            <Tab.Screen
+            options={{
+              title:'Home'
+            }}
             name="searchResult"
             component={SearchResultPage}
               />
-            <Stack.Screen
+            <Tab.Screen
+            options={{
+              title:'Favourite',
+            }}
+            name="fav"
+            component={FavouritePage}
+              />
+            <Tab.Screen
+            options={{
+              tabBarVisible:false,
+              tabBarButton: (props) => null,
+            }}
             name="booking"
             component={BookingPage}
             />
-            <Stack.Screen
+            <Tab.Screen
+            options={{
+              title:'Profile'
+            }}
             name="bookingHistory"
             component={BookingHistoryPage}
             />
-          </Stack.Navigator>
+            <Tab.Screen
+            options={{
+              title:'Settings'
+            }}
+            name="settings"
+            component={SettingsPage}
+            />
+            <Tab.Screen
+            options={{
+              tabBarVisible:false,
+              tabBarButton: (props) => null,
+            }}
+            name="detail"
+            component={DetailPage}
+            />
+            <Tab.Screen
+            options={{
+              title:'Login',
+              tabBarVisible:false,
+              tabBarButton: (props) => null,
+            }}
+            name="login"
+            component={LoginPage}
+              />
+          </Tab.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>

@@ -12,28 +12,30 @@ import {
     TouchableOpacity,
   } from "react-native";
 const HistoryCard = ({hotel}) => {
+    console.log(hotel)
     return (
         <View style={[styles.card, styles.shadowProp]}>
+            
             <Image
             style={styles.imgView}
-            source={{uri:'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg'}}/>
+            source={{uri: hotel.hotel.propertyImage.image.url}}/>
             <View style={styles.cardTextView}>
-                <Text style={{fontWeight:'500', fontSize:14,marginBottom: 5}}>{hotel.hotel.namaHotel}</Text>
-                <Text style={{fontWeight:'300', fontSize:12,marginBottom: 5}}>{hotel.hotel.alamatHotel}</Text>
+                <Text style={{fontWeight:'500', fontSize:14,marginBottom: 5}}>{hotel.hotel.name}</Text>
+                <Text style={{fontWeight:'300', fontSize:12,marginBottom: 5}}></Text>
                 <View style={{flexDirection:'row',alignItems: "center"}}><Stars
-                display={hotel.hotel.rating}
+                display={hotel.hotel.reviews.score/2}
                 spacing={4}
                 count={5}
                 fullStar={<Icon name={'star'} style={[styles.myStarStyle]}/>}
                 emptyStar={<Icon name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]}/>}
                 halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]}/>}
                 />
-                <Text style={{fontWeight:'200'}}> {hotel.hotel.rating}</Text>
+                <Text style={{fontWeight:'200'}}> {hotel.hotel.reviews.score/2}/5</Text>
                 </View> 
             </View>
 
             <View style={styles.priceView}>
-                <Text style={{fontWeight: '500', fontSize:16, color:'#22A39F'}}> $ {hotel.hotel.price} </Text>
+                <Text style={{fontWeight: '500',  color:'#22A39F'}}>{hotel.hotel.price.lead.formatted} </Text>
                 <Text style={{fontWeight: '200', fontSize:10}}> /per night </Text>
             </View>          
         </View>
@@ -53,11 +55,11 @@ const styles = StyleSheet.create({
     imgView: {
         flex:0.3,
         borderRadius:10,
-        margin: 10,
+        margin: 2,
     },
 
     cardTextView:{
-        flex:0.55,
+        flex:0.45,
         margin: 10,
         marginTop:10,
 
@@ -76,8 +78,7 @@ const styles = StyleSheet.create({
     },
 
     priceView:{
-        flex:0.25,
-        width:'25%',
+        flex:0.35,
         justifyContent:'center',
         alignItems: "center",
     },

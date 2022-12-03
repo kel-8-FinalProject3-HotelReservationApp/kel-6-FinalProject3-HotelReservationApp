@@ -2,46 +2,52 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const useBookingHistory = () =>{
+const useBookingHistory = ({navigation}) =>{
     const bookingHistory = useSelector((state) => state.persistedReducer.booking.bookingByUser)
+    console.log(bookingHistory)
+    const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
+    console.log(userNow)
     const [hotels,setHotels] = useState([])
-    const userLoggedIn = {
-        nama:'Rizky Ganteng',
-        email: 'babangganteng@gmail.com',
-        bookings: 20,
-        reviews: 10,
-        favourites: 102,
-        id: 1,
-        phoneNumber: '081273920123'
-    }
 
     const userDisplayData = [
         {
             title: 'Bookings',
-            data: userLoggedIn.bookings
+            data: userNow.bookings
         },
         {
             title: 'Reviews',
-            data: userLoggedIn.reviews
+            data: userNow.reviews
         },
         {
             title: 'Favourites',
-            data: userLoggedIn.favourites
+            data: userNow.favourites
         }
         
 
     ]
+
+    const handleLogin = () => {
+        navigation.navigate("login")
+    }
+
     useEffect(() => {
-        async function getData() {
+        function getData() {
             if(bookingHistory.length !== 0){
-                const historyUser = await bookingHistory.find((booking) => booking.id === userLoggedIn.id)
-                setHotels(historyUser.hotels)
+                const historyUser = bookingHistory.find((booking) => booking.id === userNow.id)
+                console.log(historyUser)
+                if(historyUser){
+                    setHotels(historyUser.hotels)
+                }else{
+                    setHotels([])
+                }
             }
         }
         getData()
-    },[bookingHistory])
+    },[userNow,bookingHistory])
+
+
     return (
-        {hotels, userLoggedIn, userDisplayData}
+        {hotels, userDisplayData, userNow, handleLogin}
     )
 }
 
