@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { arrowup, calender, guest, Search } from '../../../assets'
 import { Input } from '../Atoms'
 import { TextInput } from 'react-native'
+import { Button } from 'react-native-web'
 
 // import {} from 'rea'
 
@@ -30,6 +31,7 @@ const SearchBar = () => {
       <Image source={arrowup} style={styles.image}/>
       <Image source={arrowup} style={styles.image}/>
     </View>
+    <Button style={styles.Button} title="Search" />
    </View>
   )
 }
@@ -95,6 +97,9 @@ const styles = StyleSheet.create({
     color: '#448f92',
     width: '100%',
     paddingHorizontal: 10
+  },
+  Button : {
+    borderRadius: 100,
   }
 })
 

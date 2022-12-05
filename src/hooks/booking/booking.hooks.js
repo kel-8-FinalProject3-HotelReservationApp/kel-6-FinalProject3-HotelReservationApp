@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
 import { addBooking } from "../../config/Booking/BookingSlice";
 import {
@@ -15,42 +15,49 @@ import {
 import useBookingHistory from "../../hooks/booking/history.hooks";
 
 
-const useBooking = ({navigation}) => {
+const useBooking = ({route,navigation}) => {
     const dispatch = useDispatch()
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
-    const {userLoggedIn} = useBookingHistory()
-    const hotel = {
-        namaHotel: 'Hotel Mawar Melati',
-        alamatHotel: 'Jl. Semuanya Indah',
-        price:'300',
-        rating:4.2
-    }
+    const hotelInfo = route.params.hotelInfo
+    const id = route.params.hotelInfo.id
+    const days = route.params.days
+    const guest = route.params.guest
+    const totalPrice = route.params.hotelInfo.price.lead.amount
+    const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
+    console.log(route.params.days)
+    console.log(route.params.guest)
+    console.log(id)
     
+    const [userId,setUserId] = useState(0)
     
-    const userId = 1;
     const handleAddButton = () => {
         const bookInfo = {
             name: name,
             email: email,
             phoneNumber: phoneNumber,
-            hotel: hotel
+            hotel: hotelInfo
         }
         if(bookInfo.name === ''){
-            bookInfo.name = userLoggedIn.nama
+            bookInfo.name = userNow.name.firstname
         }
         if(bookInfo.email === ''){
-            bookInfo.email = userLoggedIn.email
+            bookInfo.email = userNow.email
         }
         if(bookInfo.phoneNumber === ''){
-            bookInfo.phoneNumber = userLoggedIn.phoneNumber
+            bookInfo.phoneNumber = userNow.phone
         }
         dispatch(addBooking({bookInfo, userId}))
         navigation.navigate("bookingHistory")
     }
 
-    return {handleAddButton, setEmail, setName, setPhoneNumber, hotel, userId}
+    useEffect(() => {
+        if(userNow){
+            setUserId(userNow.id)
+        }
+    },[userNow])
+    return {handleAddButton, setEmail, setName, setPhoneNumber,  userId, days, guest, totalPrice, userNow}
     
 }
 

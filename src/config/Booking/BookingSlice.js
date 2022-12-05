@@ -14,6 +14,7 @@ const BookingSlice = createSlice({
             const userFound = state.bookingByUser.find((bookList) => bookList.id === action.payload.userId);
             if(userFound) {
                 userFound.hotels.push({ ...action.payload.bookInfo})
+                console.log(userFound)
             } else {
                 state.bookingByUser.push({hotels: [{...action.payload.bookInfo}], id: action.payload.userId})
             }

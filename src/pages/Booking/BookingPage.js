@@ -15,8 +15,9 @@ import {
 import useBookingHistory from "../../hooks/booking/history.hooks";
 import useBooking from "../../hooks/booking/booking.hooks";
 
-const BookingPage = ({navigation}) => {
-    const {handleAddButton, setEmail, setName, setPhoneNumber} = useBooking({navigation})
+const BookingPage = ({route, navigation}) => {
+    const {handleAddButton, setEmail, setName, setPhoneNumber, guest, days, totalPrice} = useBooking({route, navigation})
+    
     return(
         <View style={styles.container}>
             <View>
@@ -50,10 +51,10 @@ const BookingPage = ({navigation}) => {
                 <Text style={{marginBottom:10, fontWeight:'500'}}> Price Summary</Text>
                 <View style={[styles.priceSummaryView,styles.shadowProp]}>
                     <View style={styles.priceSummaryCard}>
-                    <Text style={{fontWeight:'500'}}>3 days, 1 Room, 2 Guest</Text>
+                    <Text style={{fontWeight:'500'}}>{days} Days, {guest} Guest</Text>
                     <View style={{flexDirection:'row', marginTop: 10}}>
                         <Text style={{flex:1}}>Total</Text>
-                        <Text>$ 534,87 </Text>
+                        <Text>Rp {totalPrice} </Text>
                     </View>
 
                     <View
@@ -62,7 +63,7 @@ const BookingPage = ({navigation}) => {
 
                     <View style={{flexDirection:'row'}}>
                         <Text style={{flex:1}}>Payable Now</Text>
-                        <Text>$ 22,50 </Text>
+                        <Text>Rp {totalPrice/15} </Text>
                     </View>
                     </View>
                     
