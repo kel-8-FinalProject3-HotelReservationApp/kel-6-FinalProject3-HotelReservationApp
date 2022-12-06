@@ -1,15 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import Stars from 'react-native-stars';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import React from "react";
 import {
     StyleSheet,
     Text,
     View,
-    Image,
-    TextInput,
-    Button,
-    TouchableOpacity,
   } from "react-native";
 
 const UserInfoDisplay = ({data}) => {

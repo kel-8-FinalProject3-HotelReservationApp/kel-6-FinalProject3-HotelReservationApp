@@ -4,7 +4,9 @@ import axios from "axios";
 const initialState = {
     searchResults:[],
     errorMessage:'',
-    isLoading:false
+    isLoading:false,
+    currentHotel:{},
+    loadingDetail:false
 }
 
 export const fetchLocation = 
@@ -21,7 +23,6 @@ export const fetchLocation =
         };
 
         await axios.request(options).then((response) => {
-            console.log(response.data)
             location = response.data
         }).catch((error) => {
             console.log(error)
@@ -35,11 +36,8 @@ export const fetchSearchHotels = createAsyncThunk(
     async ({query, checkinDate, checkoutDate, guestCount}) => {
         let searchResult = {}
         let location = await fetchLocation(query)
-        console.log(location)
         const city = location.data.find((data) => data.type === "CITY")
-        console.log(city)
         const cityUsed = city.gaiaId
-        console.log(cityUsed)
         const options = {
             method: 'GET',
             url: 'https://hotels-com-provider.p.rapidapi.com/v2/hotels/search',
@@ -64,21 +62,50 @@ export const fetchSearchHotels = createAsyncThunk(
             searchResult = response.data.properties
             }).catch((error) => {
                 console.error(error);
+                throw new Error(error)
         });
 
         if(searchResult.length >10){
             searchResult = searchResult.slice(0, 10)
         }
-        console.log(searchResult)
         return searchResult
     }
 )
 
+export const getDetailHotel = createAsyncThunk(
+    "hotels/detailHotel",
+    async(hotelId) => {
+        let hotelDetail = {}
+        console.log(typeof hotelId)
+        const options = {
+            method: 'GET',
+            url: 'https://hotels-com-provider.p.rapidapi.com/v2/hotels/info',
+            params: {domain: 'ID', locale: 'en_GB', hotel_id: hotelId},
+            headers: {
+              'X-RapidAPI-Key': '28c6ee32abmshe5fdf05d0ae30bep138bc2jsn295766aef3ed',
+              'X-RapidAPI-Host': 'hotels-com-provider.p.rapidapi.com'
+            }
+          };
+          
+          await axios.request(options).then((response) => {
+            hotelDetail = response.data
+          }).catch(function (error) {
+              console.error(error);
+              throw new Error(error)
+          });
+        
+          return hotelDetail
+
+    }
+)
 const HotelSlice = createSlice({
     name:'hotels',
     initialState,
     reducers:{
-
+        getCurrentHotel:(state, action) =>{
+            const hotelId = action.payload
+            state.currentHotel = getDetailHotel(hotelId)
+        }
     },
     extraReducers(builder) {
         builder
@@ -93,9 +120,17 @@ const HotelSlice = createSlice({
             state.isLoading = false
             state.errorMessage = "Hotel tidak ditemukan"
             state.searchResults= initialState.searchResults
-            console.log('error')
+        }).addCase(getDetailHotel.fulfilled, (state, action)=> {
+            state.currentHotel = action.payload
+            state.loadingDetail = false
+        }).addCase(getDetailHotel.pending, (state)=> {
+            state.loadingDetail = true
+        }).addCase(getDetailHotel.rejected, (state)=> {
+            state.loadingDetail = false
         })
+        
     }
 })
 
+export const {getCurrentHotel} = HotelSlice.actions
 export default HotelSlice.reducer;

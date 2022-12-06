@@ -1,9 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
 import {  StyleSheet, Text, View } from 'react-native';
-import { ScrollView } from "react-native-web";
 import { BookingPage, BookingHistoryPage, SearchResultPage, DetailPage, HomePage, LoginPage, FavouritePage, SettingsPage } from './src/pages';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { store } from './src/config/store'
 import { Provider } from 'react-redux'
 import { persistStore } from "redux-persist";
@@ -36,10 +33,10 @@ export default function App() {
               }
               return <IonIcon name={iconName} size={size} color={color}></IonIcon>
             },
+            tabBarActiveTintColor: "#22A39F",
+            
           })}
-          tabBarOptions={{
-            activeTintColor: "#22A39F"
-          }}
+          
           
           >
             <Tab.Screen
@@ -82,6 +79,7 @@ export default function App() {
             options={{
               tabBarVisible:false,
               tabBarButton: (props) => null,
+              headerShown: false
             }}
             name="detail"
             component={DetailPage}

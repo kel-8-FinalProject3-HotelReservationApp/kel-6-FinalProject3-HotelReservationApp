@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useBookingHistory from "../../hooks/booking/history.hooks";
 import HistoryCard from "../../components/historyCard";
 import UserInfoDisplay from "../../components/userInfoDisplay";
@@ -8,22 +7,13 @@ import {
   Text,
   View,
   Image,
-  TextInput,
-  Button,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import { logout } from "../../config/Login/usersSlice";
+
 
 const BookingHistoryPage = ({navigation}) => {
-    const dispatch = useDispatch()
     const {hotels, userDisplayData, userNow, handleLogin} = useBookingHistory({navigation})
-    const handleLogout = () => { 
-        dispatch(logout())
-        navigation.navigate('login')
-    }
-    console.log(hotels)
     return(
         <>
         <ScrollView>
@@ -53,10 +43,9 @@ const BookingHistoryPage = ({navigation}) => {
         <View style={styles.underlineSeparator}/>
 
         <>
-        {hotels?
+        {hotels.length!=0?
         <View>
             {hotels.map((hotel, idx) => {
-                console.log(hotel)
                 return(
                 <HistoryCard hotel={hotel} key={idx}/>
                 )
@@ -68,9 +57,6 @@ const BookingHistoryPage = ({navigation}) => {
         </View>
         
         }
-        <TouchableOpacity onPress={() => handleLogout()}> 
-                    <Text style={{fontWeight:'700', fontSize:20, color:"#22A39F"}}>Logout</Text> 
-        </TouchableOpacity>
         </>
         </View>
         

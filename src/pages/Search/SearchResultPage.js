@@ -1,8 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import axios from "axios";
-import { fetchSearchHotels } from "../../config/Hotel/HotelSlice";
+import React from "react";
 import DatePicker from 'react-native-modern-datepicker';
 import SearchCard from "../../components/searchCard";
 import {
@@ -10,98 +6,20 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     TextInput,
-    Button,
     TouchableOpacity,
     Modal,
-    Alert,
+    ActivityIndicator
 } from "react-native";
-import { fetchUsers } from "../../config/Login/usersSlice";
+import useSelected from "../../hooks/selector/selector.hooks";
+import useSearch from "../../hooks/search/search.hooks";
 
 
 const SearchResultPage = ({navigation}) => {
-    const dispatch = useDispatch()
-    const [query, setQuery] = useState('')
-    const [checkinDate, setCheckinDate] = useState('')
-    const [checkoutDate, setCheckoutDate] = useState('')
-    const [guestCount, setGuestCount] = useState('')
-    const [show,setShow] = useState(false)
-    const [check, setCheck] = useState('checkIn')
-    const [currentDate, setCurrentDate] = useState('')
-    const [days, setDays] = useState(0)
-    const [isFalse, setIsFalse] = useState(false)
-    const searchResult = useSelector((state) => state.persistedReducer.hotel.searchResults)
-    const errorMessage = useSelector((state) => state.persistedReducer.hotel.errorMessage)
-    const isLoading = useSelector((state) => state.persistedReducer.hotel.isLoading)
-    
-    const getCurrentDate = () => {
-        let today = new Date()
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = today.getFullYear();
-
-        today = yyyy + '-' + mm + '-' + dd;
-        setCurrentDate(today)
-    }
-
-    const getNight = (checkoutDate,checkinDate) => {
-        const checkout = new Date(checkoutDate)
-        const checkin = new Date(checkinDate)
-        let diff = Math.abs(checkout-checkin)
-        const days = Math.floor(diff/ (24*60*60*1000))
-        if(days){
-            setDays(days)
-        } else {
-            setDays(1)
-        }
-        
-    }
-
-    
-    const searchButton = () =>{
-        console.log(query)
-        console.log(checkinDate)
-        console.log(checkoutDate)
-        console.log(guestCount)
-        dispatch(fetchSearchHotels({query,  checkinDate, checkoutDate, guestCount}))
-    }
-
-    const handleDetailButton = (hotelInfo) => {
-        let guest = '1'
-        if(guestCount!== ''){
-            guest = guestCount
-        }
-        navigation.navigate("detail", {
-            hotelInfo,
-            days,
-            guest
-        })
-    }
-    const btnCheck = (checkName) => {
-        setCheck(checkName)
-        setShow(true)
-    }
-
-    const changeDate = (check, dateChange) => {
-        const date = dateChange.replace(/\/+/g, '-')
-        if(check === "checkIn"){
-            setCheckinDate(date)
-        } else {
-            setCheckoutDate(date)
-        }
-        setShow(false)
-    }
-
-    
-    useEffect(() => {
-        getCurrentDate()
-        getNight(checkoutDate,checkinDate)
-    },[checkoutDate, checkinDate])
-
-    useEffect(() => {
-        dispatch(fetchUsers())
-    }, [])
+    const {searchResult, errorMessage, isLoading} = useSelected()
+    const {setQuery, guestCount, setGuestCount, 
+        show, setShow, check, days, currentDate, checkinDate, 
+        checkoutDate, searchButton, btnCheck, changeDate} = useSearch()
     return(
         
         <ScrollView>
@@ -114,14 +32,14 @@ const SearchResultPage = ({navigation}) => {
                 onChangeText={(query) => setQuery(query)}/>
                 </View>
                 
-                <View style={{flexDirection:'row', width:"80%",height: 30,marginTop:10,}}>
-                    <View style={[styles.inputRow,styles.shadowProp]}>
+                <View style={{flexDirection:'row', width:"80%",height: 30,marginTop:10, justifyContent:'space-between'}}>
+                    <View style={[styles.inputRow,styles.shadowProp, {width:'48%'}]}>
                     <TouchableOpacity onPress={()=> btnCheck('checkIn')}>
                         {checkinDate? <Text>{checkinDate}</Text> : <Text> Checkin Date</Text>}
                     </TouchableOpacity>
                     </View>
 
-                    <View style={[styles.inputRow,styles.shadowProp]}>
+                    <View style={[styles.inputRow,styles.shadowProp, {width:'48%'}]}>
                     <TouchableOpacity onPress={()=> btnCheck('checkOut')}>
                     {checkoutDate? <Text>{checkoutDate}</Text> : <Text> Checkout Date</Text>}
                     </TouchableOpacity>
@@ -131,7 +49,8 @@ const SearchResultPage = ({navigation}) => {
 
                 <View style={[styles.inputView,styles.shadowProp]}>
                 <TextInput
-                placeholder="Total Guest"
+                value={guestCount}
+                placeholder="total guest"
                 style={styles.TextInput}
                 onChangeText={(guest) => setGuestCount(guest)}/>
                 </View>
@@ -147,13 +66,13 @@ const SearchResultPage = ({navigation}) => {
             transparent={true}
             visible={show}
             >
-                <View style={{flex:1, justifyContent:'center', alignItems:'center',backgroundColor: 'rgba(0,0,0,0.5)'}}>
+                <TouchableOpacity style={{flex:1, justifyContent:'center', alignItems:'center',backgroundColor: 'rgba(0,0,0,0.5)'}} onPress={() => setShow(false)}>
                 {check==="checkIn"? (
                     <DatePicker
                     onDateChange={(dateString) => changeDate(check, dateString)}
                     current={checkinDate}
                     selected={checkinDate}
-                    minimumDate={currentDate}
+                    minimumDate={currentDate()}
                     mode="calendar"
                     />
                 ):(
@@ -167,12 +86,12 @@ const SearchResultPage = ({navigation}) => {
                 )
                 }
                 
-                </View>
+                </TouchableOpacity>
                 
             </Modal>
             
             {isLoading? (
-                <Text>Loading ...</Text>
+                    <ActivityIndicator color={'#22A39F'} size={50} style={{alignSelf:'center'}}/>
             ): (
             <>
             {searchResult.length!==0? (
@@ -185,7 +104,8 @@ const SearchResultPage = ({navigation}) => {
                 
             </>
             ):(
-                <Text>{errorMessage}</Text>
+                    <Text>{errorMessage}</Text>
+
             )}
             </>
             )}
@@ -198,8 +118,7 @@ export default SearchResultPage
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
-        margin:20
+        margin:20,
     },
     
     searchContainer : {
@@ -207,7 +126,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: "center",
         justifyContent: 'center',
-        margin:10,
+
         
     },
 
@@ -242,6 +161,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 0.2,
         shadowRadius: 3,
+        elevation: 3
     },
     checkoutButton: {
         backgroundColor: '#22A39F',

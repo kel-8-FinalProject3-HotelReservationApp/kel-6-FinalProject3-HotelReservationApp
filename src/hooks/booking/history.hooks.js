@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const useBookingHistory = ({navigation}) =>{
     const bookingHistory = useSelector((state) => state.persistedReducer.booking.bookingByUser)
-    console.log(bookingHistory)
     const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
-    console.log(userNow)
     const [hotels,setHotels] = useState([])
 
     const userDisplayData = [
@@ -34,7 +32,6 @@ const useBookingHistory = ({navigation}) =>{
         function getData() {
             if(bookingHistory.length !== 0){
                 const historyUser = bookingHistory.find((booking) => booking.id === userNow.id)
-                console.log(historyUser)
                 if(historyUser){
                     setHotels(historyUser.hotels)
                 }else{

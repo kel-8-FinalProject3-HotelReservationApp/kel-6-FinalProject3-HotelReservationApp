@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Alert } from "react-native";
 
 const initialState = {
   users: [],
@@ -23,11 +22,57 @@ const usersSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-            state.userLoggedIn = action.payload.user
+      state.userLoggedIn = action.payload.user
     },
     logout : (state) => {
-        state.userLoggedIn = initialState.userLoggedIn
-    }
+      state.userLoggedIn = initialState.userLoggedIn
+    },
+    addBookings: (state) => {
+      const userFound = state.userLoggedIn
+      console.log(state.userLoggedIn)
+      if(userFound){
+        userFound.bookings++
+        console.log(userFound.bookings)
+      }
+    },
+    addFavourites: (state) => {
+      const userFound = state.userLoggedIn
+      const updateInUsers = state.users.find((user) => user.id === state.userLoggedIn.id )
+      console.log(state.userLoggedIn)
+      if(userFound){
+        userFound.favourites++
+        updateInUsers.favourites++
+        console.log(userFound.bookings)
+      }
+    },
+    removeFavourites: (state) => {
+      const userFound = state.userLoggedIn
+      const updateInUsers = state.users.find((user) => user.id === state.userLoggedIn.id )
+      console.log(state.userLoggedIn)
+      if(userFound){
+        userFound.favourites--
+        updateInUsers.favourites--
+        console.log(userFound.bookings)
+      }
+    },
+    changeProfile: (state, action) => {
+      const userFound = state.userLoggedIn
+      const updateInUsers = state.users.find((user) => user.id === state.userLoggedIn.id )
+      if(action.payload.title === 'firstname'){
+        userFound.name.firstname = action.payload.input
+        updateInUsers.name.firstname = action.payload.input
+      } else if(action.payload.title === 'lastname'){
+        userFound.name.lastname = action.payload.input
+        updateInUsers.name.lastname = action.payload.input
+      } else if(action.payload.title === 'phone'){
+        userFound.phone = action.payload.input
+        updateInUsers.phone = action.payload.input
+      } else{
+        userFound.email = action.payload.input
+        updateInUsers.email = action.payload.input
+      }
+    },
+    
   },
   extraReducers(builder) {
     builder
@@ -40,5 +85,5 @@ const usersSlice = createSlice({
   },
 });
 
-export const { login, logout} = usersSlice.actions
+export const { login, logout, addBookings, addFavourites, removeFavourites, changeProfile} = usersSlice.actions
 export default usersSlice.reducer;

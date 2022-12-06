@@ -1,24 +1,22 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
-  Button,
   TouchableOpacity,
-  ScrollView,
   Alert,
 } from "react-native";
 import { login } from "../../config/Login/usersSlice";
+import useSelected from "../../hooks/selector/selector.hooks";
 
 const LoginPage = ({navigation}) => {
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
+    const {userNow} = useSelected()
     const users = useSelector((state) => state.persistedReducer.users.users)
     const handleLogin = () => {
         const user = users.find((item) => (item.email === email && item.password === password))
@@ -28,13 +26,13 @@ const LoginPage = ({navigation}) => {
         } else{
             Alert.alert("email atau password salah")
         }
-        
-        
-        
-        
-        
-        
     }
+    useEffect(() => {
+        if(Object.keys(userNow).length!=0) {
+            navigation.navigate('searchResult')
+        }
+    })
+
     return(
         <View style={styles.mainContainer}>
             <View style={styles.loginContainer}>

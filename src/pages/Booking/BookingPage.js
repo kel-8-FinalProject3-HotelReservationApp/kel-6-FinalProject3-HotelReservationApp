@@ -1,18 +1,11 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
-
-import { addBooking } from "../../config/Booking/BookingSlice";
+import React from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
-  Button,
   TouchableOpacity,
 } from "react-native";
-import useBookingHistory from "../../hooks/booking/history.hooks";
 import useBooking from "../../hooks/booking/booking.hooks";
 
 const BookingPage = ({route, navigation}) => {
@@ -63,7 +56,7 @@ const BookingPage = ({route, navigation}) => {
 
                     <View style={{flexDirection:'row'}}>
                         <Text style={{flex:1}}>Payable Now</Text>
-                        <Text>Rp {totalPrice/15} </Text>
+                        <Text>Rp {Math.floor(totalPrice*0.15)} </Text>
                     </View>
                     </View>
                     
