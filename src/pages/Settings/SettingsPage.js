@@ -9,6 +9,8 @@ import {
 import useLogin from "../../hooks/auth/login.hooks";
 import useSettings from "../../hooks/settings/settings.hooks";
 import LoginInformation from "../Infomation/LoginInformation";
+import IonIcon from 'react-native-vector-icons/Ionicons';
+
 
 
 const SettingsPage = ({navigation}) => {
@@ -20,7 +22,7 @@ const SettingsPage = ({navigation}) => {
             <View>
                 <View style={[styles.myAccountView, styles.shadowProp]}>
                     <View style={{margin:10}}>
-                    <Text style={{fontWeight:'600', marginBottom:10}}>MY ACCOUNT</Text>
+                    <Text style={{fontWeight:'600', marginBottom:10, textAlign : 'center'}}>MY ACCOUNT</Text>
                     {profile.map((data, idx) => {
                         return(
                         <>
@@ -30,7 +32,7 @@ const SettingsPage = ({navigation}) => {
                             </View>
                             <View style={{flex:0.5}}>
                                 <TextInput value={data.value} 
-                                style={{textAlign:'right'}}
+                                style={[{textAlign:'left'}, styles.inputText]}
                                 onChangeText={(e) => 
                                     {if(data.title==='First Name'){onChange('firstname',e)}
                                     else if(data.title==='Last Name'){onChange('lastname',e)}
@@ -53,13 +55,15 @@ const SettingsPage = ({navigation}) => {
             
                 <View style={[styles.myAccountView, styles.shadowProp]}>
                     <View style={{margin:10}}>
-                    <Text style={{fontWeight:'600', marginBottom:10}}>SUPPORT</Text>
+                    <Text style={{fontWeight:'600', marginBottom:10, textAlign: 'center'}}>SUPPORT</Text>
                         <Text style={{fontWeight:'500'}}> Terms & Policy</Text>
                         <View
                         style={styles.underlineSeparator}
                         />
                         <TouchableOpacity onPress={() => handleLogout()}> 
-                            <Text style={{fontWeight:'700', fontSize:20, color:"#22A39F"}}>Logout</Text> 
+                            {/* <Text style={styles.logout}>Logout</Text>  */}
+                             <IonIcon style={styles.logout} name="log-in-outline" size={30} color={'red'}/>
+
                         </TouchableOpacity>
                     </View>
 
@@ -102,5 +106,22 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         elevation: 3
     },
+    inputText: {
+        outlineStyle: "none",
+        borderColor : 'black',
+        // borderBottomWidth: 0.02,
+        borderRadius: 10,
+        backgroundColor : '#EFF5F5',
+        fontSize : 15,
+        fontWeight: 500,
+        paddingHorizontal: 20,
+        padding : 3
+    },
+    logout :{
+        textAlign : 'center',
+        fontWeight : 600,
+        color: 'red',
+        shadowOpacity : 30
+    }
 })
 export default SettingsPage

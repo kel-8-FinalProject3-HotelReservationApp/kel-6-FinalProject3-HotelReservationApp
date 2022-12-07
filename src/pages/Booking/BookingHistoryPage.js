@@ -34,11 +34,11 @@ const BookingHistoryPage = ({navigation}) => {
         <View>
             <View style={{flexDirection:'row', marginBottom: 10}}>
                 <Image
-                    style={[styles.imgView, {flex:0.2, height:60}]}
-                    source={{uri:'https://engineering.fb.com/wp-content/uploads/2016/04/yearinreview.jpg'}}/>
+                    style={[styles.imgView]}
+                    source={{uri:'https://cdn-icons-png.flaticon.com/512/1077/1077063.png'}}/>
                 <View style={{flex:0.8,justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{fontWeight:'500', fontSize:22}}>{userNow.name.firstname} {userNow.name.lastname}</Text>
-                    <Text style={{fontWeight:'300', fontSize:10,marginBottom: 5}}>{userNow.email}</Text>
+                    <Text style={{fontWeight:'500', fontSize:22, textTransform : 'uppercase'}}>{userNow.name.firstname} {userNow.name.lastname}</Text>
+                    <Text style={{fontWeight:'500', fontSize:14,marginBottom: 5}}>{userNow.email}</Text>
                 </View>
             </View>
         </View>
@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     },
 
     imgView: {
-        flex:0.3,
-        borderRadius:10,
-        margin: 5,
-        marginLeft:20,
+        height: '100%',
+        paddingHorizontal  : 20,
+        marginLeft: 30
+        
     },
 
     backButton: {

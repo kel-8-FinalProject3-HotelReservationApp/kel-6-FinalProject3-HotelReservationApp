@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignItems: "center",
         justifyContent: 'center',
+        paddingVertical : 7
 
       },
 
@@ -118,7 +119,10 @@ const styles = StyleSheet.create({
         height: 30,
         flex: 1,
         textAlign:'center',
-        width:'100%'
+        width:'100%',
+        outlineStyle : 'none',
+        paddingVertical : 7,
+        fontWeight: 500
     },
     
     checkoutButton: {

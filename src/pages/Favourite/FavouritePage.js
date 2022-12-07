@@ -6,7 +6,11 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  StyleSheet,
 } from "react-native";
+import LoginInformation from "../Infomation/LoginInformation";
+import IonIcon from 'react-native-vector-icons/Ionicons';
+
 
 
 const FavouritePage = ({navigation}) => {
@@ -24,20 +28,30 @@ const FavouritePage = ({navigation}) => {
           })}
           </>
         : 
-          <Text>
-            Belum ada favourite
-          </Text>
+        <View style={styles.container}>
+          <Text style={styles.textBelum}>Belum ada Favourite</Text>
+          <IonIcon name="heart" size={40} color={'red'}/>
+        </View>
         }
       </>
       :
-        <View style={{marginTop:'50%'}}>
-            <TouchableOpacity onPress={() => handleLogin()}> 
-            <Text style={{fontWeight:'700', fontSize:20, color:"#22A39F"}}>Anda belum login, silahkan login terlebih dahulu</Text> 
-            </TouchableOpacity>
-        </View>
+        <LoginInformation handlePress={handleLogin} />
       }
       </ScrollView>
     )
 }
 
+
+const styles = StyleSheet.create({
+  container:{
+    display: "flex",
+    justifyContent : 'center',
+    height: 500,
+    alignItems : 'center'
+  },
+  textBelum : {
+    fontSize : 20,
+    fontWeight : 600
+  }
+})
 export default FavouritePage
