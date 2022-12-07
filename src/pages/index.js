@@ -7,6 +7,7 @@ import LoginPage from "./Auth/LoginPage";
 import FavouritePage from "./Favourite/FavouritePage";
 import SettingsPage from "./Settings/SettingsPage";
 import LoginInformation from "./Infomation/LoginInformation";
+import Home from "./Home";
 
 
-export {BookingPage, BookingHistoryPage, SearchResultPage, DetailPage, HomePage, LoginPage, FavouritePage, SettingsPage, LoginInformation}
+export {BookingPage, BookingHistoryPage, SearchResultPage, DetailPage, HomePage, LoginPage, FavouritePage, SettingsPage, LoginInformation, Home}

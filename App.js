@@ -3,7 +3,7 @@
 // import { BookingPage, BookingHistoryPage, SearchResultPage, Home } from './src/pages';
 // import {  StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from "react-native-web";
-import { BookingPage, BookingHistoryPage, SearchResultPage, DetailPage, HomePage, LoginPage, FavouritePage, SettingsPage } from './src/pages';
+import { BookingPage, BookingHistoryPage, SearchResultPage, DetailPage, HomePage, LoginPage, FavouritePage, SettingsPage, Home } from './src/pages';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { store } from './src/config/store'
@@ -49,7 +49,7 @@ export default function App() {
               title:'Home'
             }}
             name="searchResult"
-            component={SearchResultPage}
+            component={Home}
               />
             <Tab.Screen
             options={{

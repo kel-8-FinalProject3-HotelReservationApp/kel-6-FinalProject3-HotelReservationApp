@@ -4,7 +4,7 @@ import { StyleSheet, TextInput, View } from 'react-native'
 const Input = ({placeholder, onChange, ...rest}) => {
   return (
     <View>
-        <TextInput type="date" style={styles.input} placeholder={placeholder} onChange={onChange} {...rest}/>
+        <TextInput type="date" style={styles.input} placeholder={placeholder} onChangeText={onChange} {...rest}/>
     </View>
   )
 }

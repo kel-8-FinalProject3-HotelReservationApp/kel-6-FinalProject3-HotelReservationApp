@@ -8,12 +8,14 @@ import { Button } from 'react-native-web'
 // import {} from 'rea'
 
 const SearchBar = () => {
-  const   [date, setDate] =useState('')
+  const [query, setQuery] = useState()
+  const [ckeckinData, setCkheckinDate] = useState('')
+
   return (
    <View style={styles.container}>
     <View style={styles.wrapper}>
       <Image source={Search} style={styles.image} />
-      <Input placeholder={"Want do you to go?"} />
+      <Input placeholder={"Want do you to go?"} onChange={(query) => setQuery(query)}/>
     </View>
     <View style={styles.wrapper1}>
       <View style={styles.wrapperimage}>

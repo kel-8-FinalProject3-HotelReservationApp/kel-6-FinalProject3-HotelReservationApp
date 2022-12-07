@@ -21,6 +21,7 @@ const LoginPage = ({navigation}) => {
     const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
     const users = useSelector((state) => state.persistedReducer.users.users)
     const handleLogin = () => {
+        console.log(users, "users ");
         const user = users.find((item) => (item.email === email && item.password === password))
         if(user){
             dispatch(login({user}))

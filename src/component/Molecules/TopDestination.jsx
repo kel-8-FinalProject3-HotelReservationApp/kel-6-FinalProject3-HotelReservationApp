@@ -1,41 +1,48 @@
 import React from 'react'
-import { Image, ScrollView, View , StyleSheet, ScrollViewBase} from 'react-native'
-import { humberger } from '../../../assets'
+import { Image, ScrollView, StyleSheet, Text } from 'react-native'
+import { View } from 'react-native'
 
-const TopDestination = () => {
+const TopDestination = ({data, title}) => {
   return (
-//    <View style={styles.Scroll}>
-      <ScrollView horizontal={true} style ={styles.main} > 
-        <View style={styles.Scroll} >
-        <Image source={humberger} style={styles.Image}/>
-        <Image source={humberger} style={styles.Image}/>
-        <Image source={humberger} style={styles.Image}/>
-        <Image source={humberger} style={styles.Image}/>
-        <Image source={humberger} style={styles.Image}/>
-        <Image source={humberger} style={styles.Image}/>
-        </View>
-      </ScrollView > 
-//    </View>
+    <>
+    <Text style={styles.TextHeader}>{title}</Text>
+    <ScrollView horizontal={true} style={styles.container}>
+      {data?.map((item, i)=>{
+        return(
+          <View style={styles.Wrapper}>
+            <Image style={styles.image}  source={item.regionNames.image}/>
+            <Text style={styles.Text}>{item.regionNames.secondaryDisplayName}</Text>
+          </View>
+        )
+      })}
+    </ScrollView>
+    </>
   )
 }
 
 
 const styles = StyleSheet.create({
-    main:{
-      width: '100%',
-      backgroundColor : 'red',
-      display:  'flex'
-    },
-    Scroll : {
-        width: '100%',
-        display : 'flex',
-        flexDirection : "row",
-        justifyContent : 'space-between',
-        backgroundColor: 'pink'
-    },
-    Image : {
-        height: 100, 
-        width: 100,
-    }
+  container: {
+    height: 120,
+    width: '100%',
+    flexDirection: 'row',
+    display: 'flex',
+  },
+  Wrapper: {
+    marginRight: 10
+  },
+  image: {
+    height: 100,
+    width: 100
+  },
+  Text: {
+    textAlign: 'center',
+    width: 100
+  },
+  TextHeader:{
+    fontSize : 25,
+    fontWeight: 500,
+    marginBottom: 10
+  }
 })
 export default TopDestination

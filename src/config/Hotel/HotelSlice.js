@@ -19,7 +19,7 @@ export const fetchLocation =
               'X-RapidAPI-Host': 'hotels-com-provider.p.rapidapi.com'
             }
         };
-
+       
         await axios.request(options).then((response) => {
             console.log(response.data)
             location = response.data
