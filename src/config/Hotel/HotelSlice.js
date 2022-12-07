@@ -17,7 +17,7 @@ export const fetchLocation =
             url: 'https://hotels-com-provider.p.rapidapi.com/v2/regions',
             params: {query: query, domain: 'ID', locale: 'en_GB'},
             headers: {
-              'X-RapidAPI-Key': '28c6ee32abmshe5fdf05d0ae30bep138bc2jsn295766aef3ed',
+              'X-RapidAPI-Key': '6af59fd5c4mshcaf839bd2db7694p1a3dc8jsn384f351de367',
               'X-RapidAPI-Host': 'hotels-com-provider.p.rapidapi.com'
             }
         };
