@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
       outlineStyle: "none",
       paddingVertical: 10,
       fontSize: 15,
-      fontWeight: 500,
+      fontWeight: '500',
     },
   
     shadowProp: {

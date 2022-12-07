@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   TextHeader:{
     fontSize : 25,
-    fontWeight: 500,
+    fontWeight: '500',
     marginBottom: 10
   }
 })

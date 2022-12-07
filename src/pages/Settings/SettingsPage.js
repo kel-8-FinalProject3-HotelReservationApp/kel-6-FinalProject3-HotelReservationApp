@@ -113,13 +113,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor : '#EFF5F5',
         fontSize : 15,
-        fontWeight: 500,
+        fontWeight: '500',
         paddingHorizontal: 20,
         padding : 3
     },
     logout :{
         textAlign : 'center',
-        fontWeight : 600,
+        fontWeight : '600',
         color: 'red',
         shadowOpacity : 30
     }

@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   textBelum : {
     fontSize : 20,
-    fontWeight : 600
+    fontWeight : '600'
   }
 })
 export default FavouritePage

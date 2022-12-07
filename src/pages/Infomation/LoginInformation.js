@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, StyleSheet, Text, View } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native-web';
+import { TouchableOpacity } from 'react-native';
 
 
 const LoginInformation = ({handlePress}) => {
@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
         display:"flex",
         flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center'
     },
     information : {
         fontSize : 20,
         textAlign: 'center',
         fontWeight: 'bold',
-        opacity: '60%'
+        opacity: 0.6
     },
     icons: {
         justifyContent: 'center',
