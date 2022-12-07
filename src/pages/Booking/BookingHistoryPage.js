@@ -69,9 +69,6 @@ const BookingHistoryPage = ({navigation}) => {
         </View>
         
         }
-        <TouchableOpacity onPress={() => handleLogout()}> 
-                    <Text style={{fontWeight:'700', fontSize:20, color:"#22A39F"}}>Logout</Text> 
-        </TouchableOpacity>
         </>
         </View>
         

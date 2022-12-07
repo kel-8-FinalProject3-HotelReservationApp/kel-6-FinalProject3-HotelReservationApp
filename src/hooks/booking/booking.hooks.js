@@ -1,18 +1,8 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addBooking } from "../../config/Booking/BookingSlice";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  Button,
-  TouchableOpacity,
-} from "react-native";
-import useBookingHistory from "../../hooks/booking/history.hooks";
+import { addBookings } from "../../config/Login/usersSlice";
 
 
 const useBooking = ({route,navigation}) => {
@@ -26,9 +16,6 @@ const useBooking = ({route,navigation}) => {
     const guest = route.params.guest
     const totalPrice = route.params.hotelInfo.price.lead.amount
     const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
-    console.log(route.params.days)
-    console.log(route.params.guest)
-    console.log(id)
     
     const [userId,setUserId] = useState(0)
     
@@ -49,6 +36,7 @@ const useBooking = ({route,navigation}) => {
             bookInfo.phoneNumber = userNow.phone
         }
         dispatch(addBooking({bookInfo, userId}))
+        dispatch(addBookings())
         navigation.navigate("bookingHistory")
     }
 

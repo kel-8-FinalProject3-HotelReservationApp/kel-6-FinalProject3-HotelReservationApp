@@ -1,22 +1,15 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import axios from "axios";
-import DatePicker from 'react-native-modern-datepicker';
 import {
-    ScrollView,
     StyleSheet,
     Text,
     View,
-    Image,
-    TextInput,
-    Button,
     TouchableOpacity,
-    Modal,
-    Alert,
     ImageBackground
 } from "react-native";
 import { addFavourite, removeFavourite } from "../config/Hotel/FavouriteSlice";
+import { addFavourites, removeFavourites } from "../config/Login/usersSlice";
+import { getDetailHotel } from "../config/Hotel/HotelSlice";
 
 const SearchCard = ({data, navigation}) => {
     const dispatch = useDispatch()
@@ -29,6 +22,7 @@ const SearchCard = ({data, navigation}) => {
         if(guestCount!== ''){
             guest = guestCount
         }
+        dispatch(getDetailHotel(hotel.id))
         navigation.navigate("detail", {
             hotelInfo,
             days,
@@ -37,10 +31,11 @@ const SearchCard = ({data, navigation}) => {
     }
     const IsFalse = () => {
         const userFav = favourite.find(((userFavourite) => userFavourite.id === userNow.id))
-        console.log(favourite)
         if(userFav){
             const isfalse = userFav.hotels.find((hotelz) => hotelz.id === hotel.id)? true: false
             setIsFalse(isfalse)
+        } else {
+            setIsFalse(false)
         }
         
     }
@@ -53,7 +48,8 @@ const SearchCard = ({data, navigation}) => {
             const userId = userNow.id
             const hotelInfo = hotel
             dispatch(addFavourite({hotelInfo, userId}))
-            IsFalse(true)
+            dispatch(addFavourites())
+            IsFalse()
         }
         
     }
@@ -65,14 +61,12 @@ const SearchCard = ({data, navigation}) => {
             const userId = userNow.id
             const hotelInfo = hotel
             dispatch(removeFavourite({hotelInfo, userId}))
-            IsFalse(false)
+            dispatch(removeFavourites())
+            IsFalse()
         }
         
     }
 
-    const checkFavourite = () => {
-        const favourite = useSelector((state) => state.persistedReducer.favourite.usersFavourite)
-    }
 
     useEffect(()=>{
         IsFalse()
@@ -114,6 +108,7 @@ const styles = StyleSheet.create({
         shadowOffset: {width: -2, height: 4},
         shadowOpacity: 0.2,
         shadowRadius: 3,
+        elevation: 3
     },
     imgView: {
         width:'100%',

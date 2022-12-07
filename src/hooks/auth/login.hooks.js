@@ -1,23 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-
-import { addBooking } from "../../config/Booking/BookingSlice";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  Button,
-  TouchableOpacity,
-} from "react-native";
-import useBookingHistory from "../../hooks/booking/history.hooks";
+import { useDispatch } from 'react-redux';
 import { logout } from "../../config/Login/usersSlice";
+import useSelected from '../selector/selector.hooks';
 
 
 const useLogin = ({navigation}) => {
-    const userNow = useSelector((state) => state.persistedReducer.users.userLoggedIn)
+    const {userNow} = useSelected()
     const dispatch = useDispatch()
     const handleLogin = () => {
         navigation.navigate("login")

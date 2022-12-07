@@ -16,103 +16,29 @@ import { fetchUsers } from "../config/Login/usersSlice";
 import SearchCard from "../components/searchCard";
 import { Navbar, TopDestination } from "../component";
 import {destinationTop, populardestination} from './useHome'
+import useSelected from "../hooks/selector/selector.hooks";
+import useSearch from "../hooks/search/search.hooks";
 
 const Home = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const [query, setQuery] = useState("");
-  const [checkinDate, setCheckinDate] = useState("");
-  const [checkoutDate, setCheckoutDate] = useState("");
-  const [guestCount, setGuestCount] = useState("");
-  const [show, setShow] = useState(false);
-  const [check, setCheck] = useState("checkIn");
-  const [currentDate, setCurrentDate] = useState("");
-  const [days, setDays] = useState(0);
-  
-  const searchResult = useSelector(
-    (state) => state.persistedReducer.hotel.searchResults
-  );
-  const errorMessage = useSelector(
-    (state) => state.persistedReducer.hotel.errorMessage
-  );
-  const isLoading = useSelector(
-    (state) => state.persistedReducer.hotel.isLoading
-  );
+  const dispatch = useDispatch()
+  const {searchResult, errorMessage, isLoading} = useSelected()
+  const {setQuery, guestCount, setGuestCount, query,
+      show, setShow, check, days, currentDate, checkinDate, 
+  checkoutDate, btnCheck, changeDate} = useSearch()
 
-  console.log(searchResult, "sercj");
-
-  const getCurrentDate = () => {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, "0");
-    let mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    let yyyy = today.getFullYear();
-
-    today = yyyy + "-" + mm + "-" + dd;
-    setCurrentDate(today);
-  };
-
-  const getNight = (checkoutDate, checkinDate) => {
-    const checkout = new Date(checkoutDate);
-    const checkin = new Date(checkinDate);
-    let diff = Math.abs(checkout - checkin);
-    const days = Math.floor(diff / (24 * 60 * 60 * 1000));
-    if (days) {
-      setDays(days);
-    } else {
-      setDays(1);
-    }
-  };
-
-  const searchButton = () => {
-    console.log(query);
-    console.log(checkinDate);
-    console.log(checkoutDate);
-    console.log(guestCount);
-    dispatch(
-      fetchSearchHotels({
-        query,
-        checkinDate,
-        checkoutDate,
-        guestCount,
-      })
-    );
-  };
-
-
-
-  const handleDetailButton = (hotelInfo) => {
-    let guest = "1";
-    if (guestCount !== "") {
-      guest = guestCount;
-    }
-    navigation.navigate("detail", {
-      hotelInfo,
-      days,
-      guest,
-    });
-  };
-  const btnCheck = (checkName) => {
-    setCheck(checkName);
-    setShow(true);
-  };
-
-  const changeDate = (check, dateChange) => {
-    const date = dateChange.replace(/\/+/g, "-");
-    if (check === "checkIn") {
-      setCheckinDate(date);
-    } else {
-      setCheckoutDate(date);
-    }
-    setShow(false);
-  };
+  const searchButton = () =>{
+      if(query===""){
+          Alert.alert('masukan tujuan kamu')
+      } else {
+          dispatch(fetchSearchHotels({query,  checkinDate, checkoutDate, guestCount}))
+          navigation.navigate('searchResultPage')
+      }   
+  }
 
   useEffect(() => {
-    getCurrentDate();
-    getNight(checkoutDate, checkinDate);
-  }, [checkoutDate, checkinDate]);
-
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, []);
+      dispatch(fetchUsers())
+      console.log('aa')
+  }, [])
   return (
     <ScrollView>
       <Navbar />
@@ -124,8 +50,8 @@ const Home = ({ navigation }) => {
               placeholder="Going to...."
               style={styles.TextInput}
               onChangeText={(query) => setQuery(query)}
-            />{" "}
-          </View>{" "}
+            />
+          </View>
           <View
             style={{
               flexDirection: "row",
@@ -136,39 +62,39 @@ const Home = ({ navigation }) => {
           >
             <View style={[styles.inputRow, styles.shadowProp]}>
               <TouchableOpacity onPress={() => btnCheck("checkIn")}>
-                {" "}
                 {checkinDate ? (
                   <Text style={styles.TextInput}> {checkinDate} </Text>
                 ) : (
                   <Text style={styles.TextInput}> Checkin Date</Text>
-                )}{" "}
-              </TouchableOpacity>{" "}
+                )}
+              </TouchableOpacity>
             </View>
             <View style={[styles.inputRow, styles.shadowProp]}>
               <TouchableOpacity onPress={() => btnCheck("checkOut")}>
-                {" "}
+                
                 {checkoutDate ? (
                   <Text style={styles.TextInput}> {checkoutDate} </Text>
                 ) : (
                   <Text style={styles.TextInput}> Checkout Date</Text>
-                )}{" "}
-              </TouchableOpacity>{" "}
-            </View>{" "}
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={[styles.inputView, styles.shadowProp]}>
             <TextInput
+              value={guestCount}
               placeholder="Total Guest"
               style={styles.TextInput}
               onChangeText={(guest) => setGuestCount(guest)}
-            />{" "}
+            />
           </View>
           <TouchableOpacity
             style={styles.checkoutButton}
             onPress={() => searchButton()}
           >
-            <Text style={styles.btnText}> Search </Text>{" "}
+            <Text style={styles.btnText}> Search </Text>
           </TouchableOpacity>
-        </View>{" "}
+        </View>
         <Modal animationType="none" transparent={true} visible={show}>
           <View
             style={{
@@ -178,13 +104,13 @@ const Home = ({ navigation }) => {
               backgroundColor: "rgba(0,0,0,0.5)",
             }}
           >
-            {" "}
+            
             {check === "checkIn" ? (
               <DatePicker
                 onDateChange={(dateString) => changeDate(check, dateString)}
                 current={checkinDate}
                 selected={checkinDate}
-                minimumDate={currentDate}
+                minimumDate={currentDate()}
                 mode="calendar"
               />
             ) : (
@@ -200,7 +126,7 @@ const Home = ({ navigation }) => {
         </Modal>
         <TopDestination title={'Top destination'} data={destinationTop} />
         <TopDestination title={'Popular destination'} data={populardestination} />
-      </View>{" "}
+      </View>
     </ScrollView>
   );
 };

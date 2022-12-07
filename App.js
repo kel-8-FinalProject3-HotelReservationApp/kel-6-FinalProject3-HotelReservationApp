@@ -35,13 +35,14 @@ export default function App() {
                 iconName = focused ? 'heart-sharp' : 'heart-outline';
               } else if (rn === 'settings') {
                 iconName = focused ? 'settings' : 'settings-outline';
+              } else if (rn === 'searchResultPage') {
+                iconName = focused ? 'search-sharp' : 'search-outline';
               }
               return <IonIcon name={iconName} size={size} color={color}></IonIcon>
             },
+            tabBarActiveTintColor: "#22A39F",
           })}
-          tabBarOptions={{
-            activeTintColor: "#22A39F"
-          }}
+          
           
           >
             <Tab.Screen
@@ -51,6 +52,13 @@ export default function App() {
             name="searchResult"
             component={Home}
               />
+            <Tab.Screen
+            options={{
+              title:'Search'
+            }}
+            name="searchResultPage"
+            component={SearchResultPage}
+            />
             <Tab.Screen
             options={{
               title:'Favourite',
@@ -66,6 +74,7 @@ export default function App() {
             name="booking"
             component={BookingPage}
             />
+            
             <Tab.Screen
             options={{
               title:'Profile'
