@@ -1,7 +1,9 @@
 # kelompok  6
+```bash
 Afira Rolobessy
 RANTO
 Rizky M.
+```
 
 # Login
 ```bash
